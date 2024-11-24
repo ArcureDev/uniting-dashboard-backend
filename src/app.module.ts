@@ -5,6 +5,9 @@ import { LoggerMiddlewareMiddleware } from "./logger-middleware/logger-middlewar
 import { RouteInfo } from "@nestjs/common/interfaces";
 import { UserModule } from "./user/user.module";
 import { PrismaModule } from './prisma/prisma.module';
+import { LoginModule } from './login/login.module';
+import { HashService } from './utils/hash.service';
+import { UtilsModule } from './utils/utils.module';
 
 const loggedRoutes: RouteInfo[] = [
   // {path: 'cats', method: RequestMethod.ALL},
@@ -12,7 +15,7 @@ const loggedRoutes: RouteInfo[] = [
 ]
 
 @Module({
-  imports: [UserModule, PrismaModule],
+  imports: [UserModule, PrismaModule, LoginModule, UtilsModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -13,7 +13,6 @@ export class UserController {
 
   @Get()
   findAll(@Query('term') term: string) {
-    console.log(term)
     return this.userService.findAll(term);
   }
 
