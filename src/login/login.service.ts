@@ -1,17 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import { Credentials } from "./login.model";
 import { PrismaService } from "../prisma/prisma.service";
+import { HashService } from "../utils/hash.service";
 
 @Injectable()
 export class LoginService {
 
-  constructor(private readonly prismaService: PrismaService) {
+  constructor(private readonly prismaService: PrismaService, private readonly hashService: HashService) {
   }
 
-  login(credentials: Credentials) {
-    const user = this.prismaService.user.findUniqueOrThrow({
+  async login(credentials: Credentials) {
+    const user = await this.prismaService.user.findUniqueOrThrow({
       where: { email: credentials.email}
     });
+    console.log(await this.hashService.compare(credentials.password, user.password));
   }
 
 }
