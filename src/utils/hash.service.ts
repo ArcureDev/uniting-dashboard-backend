@@ -16,8 +16,8 @@ export class HashService {
 
   async compare(credentialsPassword: string, savedHash: string): Promise<boolean> {
     const { hash, salt } = phc.deserialize(savedHash);
-    const newHash = (await this.#generateHashAndSalt(credentialsPassword, salt.toString('base64'))).hash;
-    return hash.toString('base64') === newHash;
+    const newHash = (await this.#generateHashAndSalt(credentialsPassword, salt?.toString('base64'))).hash;
+    return hash?.toString('base64') === newHash;
   }
 
   async #hash(password: string, salt: string): Promise<Buffer> {
@@ -40,7 +40,7 @@ export class HashService {
 
   async #generateHashAndSalt(password: string, salt?: string): Promise<{salt: string, hash: string}> {
     const salty = salt ?? randomBytes(SALT_LENGTH_BYTES).toString("hex");
-    const hash = await this.#hash(password, salt).then((x) => x.toString("hex"));
+    const hash = await this.#hash(password, salty).then((x) => x.toString("hex"));
     return {salt: salty, hash};
   }
 

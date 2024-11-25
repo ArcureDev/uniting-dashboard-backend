@@ -20,8 +20,8 @@ export class UserService {
     return this.prismaService.user.findMany({ where: { email : {contains: email} }})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number): Promise<User | null> {
+    return this.prismaService.user.findUnique({where: {id}});
   }
 
   update(id: number, user: User) {

@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from "@nestjs/common";
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards } from "@nestjs/common";
 import { UserService } from './user.service';
 import { User } from "@prisma/client";
+import { JwtAuthGuard } from "../auth/jwt.guard";
 
 @Controller('users')
 export class UserController {
@@ -16,6 +17,7 @@ export class UserController {
     return this.userService.findAll(term);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
